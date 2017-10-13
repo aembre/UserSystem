@@ -13,9 +13,35 @@
    <script type="text/javascript">
    		$(function(){
    			$("#addUser").click(function(){
-   				window.open("${pageContext.request.contextPath }/add.jsp","_blank","toolbar=yes, location=yes, directories=no, status=no, menubar=yes, scrollbars=yes, resizable=no, copyhistory=yes, width=400, height=400")
+   				window.open("${pageContext.request.contextPath }/doSelect.jsp","_blank","left=500,top=200,toolbar=yes, location=no, directories=no, status=no, menubar=yes, scrollbars=yes, resizable=no, copyhistory=yes, width=400, height=400")
+   				/* if(typeof(returnValue) != "undefined"){
+		if(returnValue.length===0)
+			return;
+		for(var i=0;i<returnValue.length;i++){
+			var currentTR = DocList_AddRow('TABLE_DocList');
+			var index = currentTR.rowIndex -1;
+			document.getElementsByName("billDetailForms["+index+"].fdPartNumber")[0].value = returnValue[i]["pitem_id"];
+			document.getElementsByName("billDetailForms["+index+"].fdPartName")[0].value = returnValue[i]["pobject_name"];
+			document.getElementsByName("billDetailForms["+index+"].fdUnit")[0].value = returnValue[i]["pudefunit"];
+			document.getElementsByName("billDetailForms["+index+"].fdSection")[0].value = returnValue[i]["pudefworkshop"];
+		}
+		controlOnlyNu();
+	} */
    			});
    		});
+   		function addRow2(data){
+   			var text=	"<tr>"+
+		   				"<td>"+data.userID+"</td>"+
+		   				"<td>"+data.userName+"</td>"+
+		   				"<td>"+data.sex+"</td>"+
+		   				"<td>"+data.birthday+"</td>"+
+		   				"<td>"+data.education+"</td>"+
+		   				"<td>"+data.interest+"</td>"+
+		   				"<td></td>"+
+		   				"<td></td>"+
+   						"</tr>";
+   			$("#userTable").append(text);
+   		}
    </script>
 </head>
 
@@ -93,6 +119,7 @@
 			form.submit();
 		}
 	}
+	
 </script>
 
 <body>
@@ -132,7 +159,7 @@
         </div>
     </form>
     </div>
-	<table class="table table-striped table-bordered">
+	<table class="table table-striped table-bordered" id="userTable">
 		<tr>
 			<th>编号</th>
 			<th>姓名</th>
