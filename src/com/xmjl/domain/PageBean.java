@@ -60,7 +60,7 @@ public class PageBean<T> {
             if(end > this.totalPage){
                 //比如当前页是倒数第2页或者最后一页，也同样不符合上面这个规则
                 this.end = totalPage;
-                this.start = end - 5;
+                this.start = end - 4;
             }
         }
     }

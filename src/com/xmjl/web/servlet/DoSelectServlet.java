@@ -36,6 +36,7 @@ public class DoSelectServlet extends HttpServlet {
 		PageBean<User> pb = us.findAllUserWithPage(pageNum, pageSize, userName);
 		//将pb放入request域中
 		request.setAttribute("pageBean", pb);
+		request.setAttribute("list", JsonUtil.list2json(pb.getList()));
 		request.setAttribute("userName", userName);
 		request.getRequestDispatcher("/doSelect.jsp").forward(request, response);
 		/*List<User> users = us.findByUsername(userName);

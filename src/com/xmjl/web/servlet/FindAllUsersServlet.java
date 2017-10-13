@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.xmjl.domain.PageBean;
 import com.xmjl.domain.User;
 import com.xmjl.service.UserService;
 import com.xmjl.service.impl.UserServiceImpl;
@@ -18,10 +19,18 @@ public class FindAllUsersServlet extends HttpServlet {
 		response.setContentType("text/html;charset=utf-8");
 		UserService us = new UserServiceImpl();
 		List<User> users = us.findAllUsers();
-		/*request.setAttribute("students", students);
-		request.getRequestDispatcher("/index.jsp").forward(request, response);*/
-		request.getSession().setAttribute("users", users);
-		response.sendRedirect(request.getContextPath()+"/index.jsp");
+		//获取当前是第几页
+		String pageNumSt = request.getParameter("pageNum");
+		int pageNum=1;
+		if(null!=pageNumSt){
+			pageNum = Integer.valueOf(pageNumSt);
+		}
+		//每页显示的记录数
+		int pageSize = 10;
+		PageBean<User> pb = us.findAllUserWithPage(pageNum, pageSize);
+		
+		request.setAttribute("pageBean", pb);
+		request.getRequestDispatcher("/index.jsp").forward(request, response);
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

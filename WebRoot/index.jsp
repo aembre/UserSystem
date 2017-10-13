@@ -13,20 +13,7 @@
    <script type="text/javascript">
    		$(function(){
    			$("#addUser").click(function(){
-   				window.open("${pageContext.request.contextPath }/doSelect.jsp","_blank","left=500,top=200,toolbar=yes, location=no, directories=no, status=no, menubar=yes, scrollbars=yes, resizable=no, copyhistory=yes, width=400, height=400")
-   				/* if(typeof(returnValue) != "undefined"){
-		if(returnValue.length===0)
-			return;
-		for(var i=0;i<returnValue.length;i++){
-			var currentTR = DocList_AddRow('TABLE_DocList');
-			var index = currentTR.rowIndex -1;
-			document.getElementsByName("billDetailForms["+index+"].fdPartNumber")[0].value = returnValue[i]["pitem_id"];
-			document.getElementsByName("billDetailForms["+index+"].fdPartName")[0].value = returnValue[i]["pobject_name"];
-			document.getElementsByName("billDetailForms["+index+"].fdUnit")[0].value = returnValue[i]["pudefunit"];
-			document.getElementsByName("billDetailForms["+index+"].fdSection")[0].value = returnValue[i]["pudefworkshop"];
-		}
-		controlOnlyNu();
-	} */
+   				window.open("${pageContext.request.contextPath }/doSelect.jsp","_blank","toolbar=yes, location=no, directories=no, status=no, menubar=yes, scrollbars=yes, resizable=no, copyhistory=yes, width=400, height=400")
    			});
    		});
    		function addRow2(data){
@@ -171,7 +158,7 @@
 			<th>删除</th>
 		</tr>
 		
-		<c:forEach items="${users }" var="user" varStatus="vs">
+		<c:forEach items="${pageBean.list }" var="user" varStatus="vs">
 			<tr>
 				<td>${user.userID }</td>
 				<td>${user.userName }</td>
@@ -190,6 +177,60 @@
 		<!-- <button class="btn btn-default"  data-toggle="modal" data-target="#addUser">添加联系人</button> -->
 		<button class="btn btn-default"  id="addUser">添加联系人</button>
 	</div>
+	<br/>
+	<%-- 构建分页导航 --%>
+            共有${pageBean.totalRecord}个员工，共${pageBean.totalPage }页，当前为${pageBean.pageNum}页
+            <span style="float: right;margin-right: 30px">
+            <c:if test="${pageBean.pageNum!=null }">
+            <a href="${pageContext.request.contextPath}/servlet/findAllUsersServlet?pageNum=1">首页</a>
+            </c:if>
+            <%--就一页 --%>
+            <c:if test="${pageBean.totalPage==1 }">
+            	1
+            </c:if>
+            <%--如果当前页为第一页时，就没有上一页这个超链接显示 --%>
+            <c:if test="${pageBean.pageNum ==1 && pageBean.pageNum!=pageBean.totalPage}">
+                <c:forEach begin="${pageBean.start}" end="${pageBean.end}" step="1" var="i">
+                    <c:if test="${pageBean.pageNum == i}">
+                        ${i}
+                    </c:if>                
+                    <c:if test="${pageBean.pageNum != i}">
+                        <a href="${pageContext.request.contextPath}/servlet/findAllUsersServlet?pageNum=${i}">${i}</a>                                        
+                    </c:if>                        
+                </c:forEach>
+                <a href="${pageContext.request.contextPath}/servlet/findAllUsersServlet?pageNum=${pageBean.pageNum+1}">下一页</a>                    
+            </c:if>
+            
+            <%--如果当前页不是第一页也不是最后一页，则有上一页和下一页这个超链接显示 --%>
+            <c:if test="${pageBean.pageNum > 1 && pageBean.pageNum < pageBean.totalPage}">
+                <a href="${pageContext.request.contextPath}/servlet/findAllUsersServlet?pageNum=${pageBean.pageNum-1}">上一页</a>
+                <c:forEach begin="${pageBean.start}" end="${pageBean.end}" step="1" var="i">    
+                    <c:if test="${pageBean.pageNum == i}">
+                        ${i}
+                    </c:if>            
+                    <c:if test="${pageBean.pageNum != i}">
+                        <a href="${pageContext.request.contextPath}/servlet/findAllUsersServlet?pageNum=${i}">${i}</a>                                        
+                    </c:if>                        
+                </c:forEach>
+                <a href="${pageContext.request.contextPath}/servlet/findAllUsersServlet?pageNum=${pageBean.pageNum+1}">下一页</a>    
+            </c:if>
+            <%-- 如果当前页是最后一页，则只有上一页这个超链接显示，下一页没有 --%>
+            <c:if test="${pageBean.pageNum == pageBean.totalPage && pageBean.pageNum!=null && pageBean.totalPage!=1}">
+                <a href="${pageContext.request.contextPath}/servlet/findAllUsersServlet?pageNum=${pageBean.pageNum-1}">上一页</a>
+                <c:forEach begin="${pageBean.start}" end="${pageBean.end}" step="1" var="i">
+                    <c:if test="${pageBean.pageNum == i}">
+                        ${i}
+                    </c:if>
+                    <c:if test="${pageBean.pageNum != i}">
+                        <a href="${pageContext.request.contextPath}/servlet/findAllUsersServlet?pageNum=${i}">${i}</a>                                        
+                    </c:if>                
+                </c:forEach>
+            </c:if>
+            <%--尾页 --%>
+            <c:if test="${pageBean.pageNum!=null }">
+            <a href="${pageContext.request.contextPath}/servlet/findAllUsersServlet?pageNum=${pageBean.totalPage}">尾页</a>
+			</c:if>
+			</span>
 	
 	<%-- onclick="location.href='${pageContext.request.contextPath }/add.jsp'" --%>
 	<!-- 模态框（Modal） -->

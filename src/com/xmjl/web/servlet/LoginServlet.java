@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.xmjl.domain.PageBean;
 import com.xmjl.domain.User;
 import com.xmjl.service.UserService;
 import com.xmjl.service.impl.UserServiceImpl;
@@ -38,8 +39,20 @@ public class LoginServlet extends HttpServlet {
 				response.addCookie(pwdCookie);
 			}*/
 			
-			List<User> users = us.findAllUsers();
-			request.getSession().setAttribute("users", users);
+			/*//获取当前是第几页
+			String pageNumSt = request.getParameter("pageNum");
+			int pageNum=1;
+			if(null!=pageNumSt){
+				pageNum = Integer.valueOf(pageNumSt);
+			}
+			//每页显示的记录数
+			int pageSize = 10;
+			PageBean<User> pb = us.findAllUserWithPage(pageNum, pageSize);
+			
+			request.setAttribute("pageBean", pb);
+			request.getRequestDispatcher("/index.jsp").forward(request, response);*/
+			//List<User> users = us.findAllUsers();
+			//request.getSession().setAttribute("users", users);
 			response.sendRedirect(request.getContextPath()+"/index.jsp");
 		}else {
 			response.getWriter().print(false);

@@ -70,7 +70,7 @@
 				}
 			}
 			for(var i=0;i<result.length;i++){
-				window.opener.addRow2(result[i]);
+				window.opener.addRow2(${list}[i]);
 			}
 			window.close();
 		});
@@ -106,12 +106,16 @@
 	
 	<%-- 构建分页导航 --%>
             共有${pageBean.totalRecord}个员工，共${pageBean.totalPage }页，当前为${pageBean.pageNum}页
-            <br/>
+            <span style="float: right;margin-right: 30px">
             <c:if test="${pageBean.pageNum!=null }">
             <a href="${pageContext.request.contextPath}/servlet/doSelectServlet?pageNum=1&userName=${userName}">首页</a>
             </c:if>
+            <%--就一页 --%>
+            <c:if test="${pageBean.totalPage==1 }">
+            	1
+            </c:if>
             <%--如果当前页为第一页时，就没有上一页这个超链接显示 --%>
-            <c:if test="${pageBean.pageNum ==1}">
+            <c:if test="${pageBean.pageNum ==1 && pageBean.pageNum!=pageBean.totalPage}">
                 <c:forEach begin="${pageBean.start}" end="${pageBean.end}" step="1" var="i">
                     <c:if test="${pageBean.pageNum == i}">
                         ${i}
@@ -136,9 +140,8 @@
                 </c:forEach>
                 <a href="${pageContext.request.contextPath}/servlet/doSelectServlet?pageNum=${pageBean.pageNum+1}&userName=${userName}">下一页</a>    
             </c:if>
-            
             <%-- 如果当前页是最后一页，则只有上一页这个超链接显示，下一页没有 --%>
-            <c:if test="${pageBean.pageNum == pageBean.totalPage && pageBean.pageNum!=null}">
+            <c:if test="${pageBean.pageNum == pageBean.totalPage && pageBean.pageNum!=null && pageBean.totalPage!=1}">
                 <a href="${pageContext.request.contextPath}/servlet/doSelectServlet?pageNum=${pageBean.pageNum-1}&userName=${userName}">上一页</a>
                 <c:forEach begin="${pageBean.start}" end="${pageBean.end}" step="1" var="i">
                     <c:if test="${pageBean.pageNum == i}">
@@ -153,5 +156,6 @@
             <c:if test="${pageBean.pageNum!=null }">
             <a href="${pageContext.request.contextPath}/servlet/doSelectServlet?pageNum=${pageBean.totalPage}&userName=${userName}">尾页</a>
 			</c:if>
+			</span>
 </body>
 </html>

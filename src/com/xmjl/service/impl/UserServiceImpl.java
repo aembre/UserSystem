@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
 		PageBean<User> pb = new PageBean<User>(pageNum, pageSize, totalRecord);
 		int startIndex = pb.getStartIndex();
 		//有了startIndex和pageSize，就可得到每页的数据
-		pb.setList(dao.findAll(startIndex,pageSize));
+		pb.setList(dao.findAll(startIndex,pageSize,userName));
 		return pb;
 	}
 	

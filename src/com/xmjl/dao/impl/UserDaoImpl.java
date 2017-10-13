@@ -17,7 +17,7 @@ public class UserDaoImpl implements UserDao {
 	private Connection conn = null;
 	private PreparedStatement ps = null;
 	private ResultSet rs = null;
-	private List<User> userLi = new ArrayList<User>();
+	private List<User> userLi = null;
 	@Override
 	public User login(String loginName, String loginPwd) {
 		try {
@@ -47,6 +47,7 @@ public class UserDaoImpl implements UserDao {
 			conn = C3P0Util.getConnection();
 			ps = conn.prepareStatement("select * from s_user");
 			rs = ps.executeQuery();
+			userLi = new ArrayList<User>();
 			while(rs.next()){
 				User u = new User();
 				u.setBirthday(rs.getDate("Birthday"));
@@ -67,6 +68,8 @@ public class UserDaoImpl implements UserDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
+		}finally{
+			C3P0Util.release(rs, ps, conn);
 		}
 	}
 
@@ -78,6 +81,42 @@ public class UserDaoImpl implements UserDao {
 			
 			ps.setString(1, "%"+userName+"%");
 			rs = ps.executeQuery();
+			userLi = new ArrayList<User>();
+			while(rs.next()){
+				User u = new User();
+				u.setBirthday(rs.getDate("Birthday"));
+				u.setEducation(rs.getString("education"));
+				u.setFilename(rs.getString("filename"));
+				u.setInterest(rs.getString("interest"));
+				u.setLoginName(rs.getString("loginName"));
+				u.setLoginPwd(rs.getString("loginPwd"));
+				u.setPath(rs.getString("path"));
+				u.setRemark(rs.getString("remark"));
+				u.setSex(rs.getString("sex"));
+				u.setTelephone(rs.getString("telephone"));
+				u.setUserID(rs.getInt("userID"));
+				u.setUserName(rs.getString("userName"));
+				userLi.add(u);
+			}
+			return userLi;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} finally{
+			C3P0Util.release(rs, ps, conn);
+		}
+	}
+
+	@Override
+	public List<User> findAll(int startIndex, int pageSize,String userName) {
+		try {
+			conn = C3P0Util.getConnection();
+			ps = conn.prepareStatement("select * from s_user where userName like ? limit ?,?");
+			ps.setString(1, "%"+userName+"%");
+			ps.setInt(2, startIndex);
+			ps.setInt(3, pageSize);
+			rs = ps.executeQuery();
+			userLi = new ArrayList<User>();
 			while(rs.next()){
 				User u = new User();
 				u.setBirthday(rs.getDate("Birthday"));
@@ -100,7 +139,6 @@ public class UserDaoImpl implements UserDao {
 			return null;
 		}
 	}
-
 	@Override
 	public List<User> findAll(int startIndex, int pageSize) {
 		try {
@@ -109,6 +147,7 @@ public class UserDaoImpl implements UserDao {
 			ps.setInt(1, startIndex);
 			ps.setInt(2, pageSize);
 			rs = ps.executeQuery();
+			userLi = new ArrayList<User>();
 			while(rs.next()){
 				User u = new User();
 				u.setBirthday(rs.getDate("Birthday"));
@@ -129,6 +168,8 @@ public class UserDaoImpl implements UserDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
+		} finally{
+			C3P0Util.release(rs, ps, conn);
 		}
 	}
 
@@ -147,6 +188,8 @@ public class UserDaoImpl implements UserDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return 0;
+		} finally{
+			C3P0Util.release(rs, ps, conn);
 		}
 	}
 

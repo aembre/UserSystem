@@ -11,7 +11,9 @@ public interface UserDao {
 
 	public List<User> findUsersByName(String userName);
 
-	public List<User> findAll(int startIndex, int pageSize);
+	public List<User> findAll(int startIndex, int pageSize, String userName);
 
 	public Integer countByName(String userName);
+
+	public List<User> findAll(int startIndex, int pageSize);
 }
