@@ -53,7 +53,8 @@ public class LoginServlet extends HttpServlet {
 			request.getRequestDispatcher("/index.jsp").forward(request, response);*/
 			//List<User> users = us.findAllUsers();
 			//request.getSession().setAttribute("users", users);
-			response.sendRedirect(request.getContextPath()+"/index.jsp");
+			request.getRequestDispatcher("/servlet/findAllUsersServlet").forward(request, response);
+			//response.sendRedirect(request.getContextPath()+"/index.jsp");
 		}else {
 			response.getWriter().print(false);
 		}

@@ -14,11 +14,10 @@ public class DeleteServlet extends HttpServlet {
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=utf-8");
-		String id = request.getParameter("id");
-		UserService us = new UserServiceImpl();
-		us.deleteUser(id);
-		response.getWriter().write("删除成功！1秒后跳转主页");
-		response.setHeader("refresh", "1;url="+request.getContextPath()+"/servlet/findAllUsersServlet");
+		String id = request.getParameter("userID");
+		UserService service = new UserServiceImpl();
+		service.deleteUserByID(id);
+		request.getRequestDispatcher("/servlet/findAllUsersServlet").forward(request, response);
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

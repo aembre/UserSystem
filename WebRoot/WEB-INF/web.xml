@@ -63,6 +63,16 @@
     <servlet-name>DoSelectServlet</servlet-name>
     <servlet-class>com.xmjl.web.servlet.DoSelectServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>FindUserByIDServlet</servlet-name>
+    <servlet-class>com.xmjl.web.servlet.FindUserByIDServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>EditUserServlet</servlet-name>
+    <servlet-class>com.xmjl.web.servlet.EditUserServlet</servlet-class>
+  </servlet>
+
+
 
 
 
@@ -122,6 +132,14 @@
   <servlet-mapping>
     <servlet-name>DoSelectServlet</servlet-name>
     <url-pattern>/servlet/doSelectServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>FindUserByIDServlet</servlet-name>
+    <url-pattern>/servlet/findUserByIDServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>EditUserServlet</servlet-name>
+    <url-pattern>/servlet/editUserServlet</url-pattern>
   </servlet-mapping>
 
 </web-app>

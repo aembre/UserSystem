@@ -43,5 +43,21 @@ public class UserServiceImpl implements UserService {
 		pb.setList(dao.findAll(startIndex,pageSize,userName));
 		return pb;
 	}
+	@Override
+	public User findUserByID(int userID) {
+		return dao.selectUserByID(userID);
+	}
+	@Override
+	public void editUser(User user) {
+		dao.updateUser(user);
+	}
+	@Override
+	public void deleteUserByID(String id) {
+		dao.deleteUserByID(id);
+	}
+	@Override
+	public void addUser(User user) {
+		dao.addUser(user);
+	}
 	
 }

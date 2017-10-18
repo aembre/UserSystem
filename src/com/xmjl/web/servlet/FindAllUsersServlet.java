@@ -26,11 +26,12 @@ public class FindAllUsersServlet extends HttpServlet {
 			pageNum = Integer.valueOf(pageNumSt);
 		}
 		//每页显示的记录数
-		int pageSize = 10;
+		int pageSize = 8;
 		PageBean<User> pb = us.findAllUserWithPage(pageNum, pageSize);
 		
-		request.setAttribute("pageBean", pb);
-		request.getRequestDispatcher("/index.jsp").forward(request, response);
+		request.getSession().setAttribute("pageBean", pb);
+		response.sendRedirect(request.getContextPath()+"/index.jsp");
+		//request.getRequestDispatcher("/index.jsp").forward(request, response);
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -66,7 +66,7 @@
 			for(var i=0;i<trs.length;i++){
 				if(trs[i].checked){
 					var rowIndex = trs[i].parentNode.parentNode.rowIndex;
-					result.push(arr[rowIndex-2]);
+					result.push(${list}[rowIndex-2]);
 				}
 			}
 			for(var i=0;i<result.length;i++){

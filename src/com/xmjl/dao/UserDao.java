@@ -16,4 +16,12 @@ public interface UserDao {
 	public Integer countByName(String userName);
 
 	public List<User> findAll(int startIndex, int pageSize);
+
+	public User selectUserByID(int userID);
+
+	public void updateUser(User user);
+
+	public void deleteUserByID(String id);
+
+	public void addUser(User user);
 }

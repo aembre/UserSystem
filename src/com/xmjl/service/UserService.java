@@ -15,4 +15,12 @@ public interface UserService {
 	
 	PageBean<User> findAllUserWithPage(int pageNum,int pageSize);
 	PageBean<User> findAllUserWithPage(int pageNum,int pageSize,String userName);
+
+	User findUserByID(int userID);
+
+	void editUser(User user);
+
+	void deleteUserByID(String id);
+
+	void addUser(User user);
 }
